@@ -1,5 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
 
+
+# set(PYTHON_LIBRARY /usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/lib/libpython3.6m.dylib)
+# set(PYTHON_INCLUDE_DIR /usr/local/opt/python3/Frameworks/Python.framework/Versions/3.6/include/python3.6m)
+# set(PYTHON_EXECUTABLE /usr/local/bin/python3)
+
+set(PYTHON_LIBRARY /usr/lib/x86_64-linux-gnu/libpython3.5m.so)
+set(PYTHON_INCLUDE_DIR /usr/include/python3.5m)
+set(PYTHON_EXECUTABLE /usr/bin/python3)
+
+
 project(bgslibrary)
 
 # cmake -D BGS_PYTHON_SUPPORT=ON ..
@@ -95,8 +105,9 @@ if(BGS_PYTHON_SUPPORT)
   else()
     find_package(Boost REQUIRED COMPONENTS python3)
   endif()
-  find_package(PythonInterp REQUIRED)
-  find_package(PythonLibs REQUIRED)
+  set(Python_ADDITIONAL_VERSIONS 3.6)
+  find_package(PythonInterp 3 REQUIRED)
+  find_package(PythonLibs 3 REQUIRED)
 
   message(STATUS "Boost library status:")
   message(STATUS "    version: ${Boost_VERSION}")
