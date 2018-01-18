@@ -9,6 +9,8 @@ set(PYTHON_LIBRARY /usr/lib/x86_64-linux-gnu/libpython3.5m.so)
 set(PYTHON_INCLUDE_DIR /usr/include/python3.5m)
 set(PYTHON_EXECUTABLE /usr/bin/python3)
 
+# On ubuntu 16.04 the python boost library is called in a non-standard way:
+set( BOOST_PYTHONLIB python-py35)
 
 project(bgslibrary)
 
@@ -103,7 +105,7 @@ if(BGS_PYTHON_SUPPORT)
   if(BGS_PYTHON_VERSION EQUAL 2)
     find_package(Boost REQUIRED COMPONENTS python)
   else()
-    find_package(Boost REQUIRED COMPONENTS python3)
+    find_package(Boost REQUIRED COMPONENTS ${BOOST_PYTHONLIB})
   endif()
   set(Python_ADDITIONAL_VERSIONS 3.6)
   find_package(PythonInterp 3 REQUIRED)
