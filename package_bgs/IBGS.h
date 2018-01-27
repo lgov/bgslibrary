@@ -31,12 +31,14 @@ namespace bgslibrary
 				showOutput = _showOutput;
 			}
 			cv::Mat apply(const cv::Mat &img_input) {
+                std::cout << "========== IndependentMultiModal apply" << std::endl;
 				setShowOutput(false);
 				cv::Mat _img_foreground;
 				cv::Mat _img_background;
 				process(img_input, _img_foreground, _img_background);
-        _img_background.copyTo(img_background);
-				return _img_foreground;
+                _img_background.copyTo(img_background);
+                std::cout << "IndependentMultiModal apply ========== " << std::endl;
+                return _img_foreground;
 			}
 			cv::Mat getBackgroundModel() {
 				return img_background;
@@ -62,8 +64,10 @@ namespace bgslibrary
 				assert(img_input.empty() == false);
 				//img_outfg = cv::Mat::zeros(img_input.size(), img_input.type());
 				//img_outbg = cv::Mat::zeros(img_input.size(), img_input.type());
+                std::cout << "----- BGS IBMS init" << std::endl;
 				img_outfg = cv::Mat::zeros(img_input.size(), CV_8UC1);
 				img_outbg = cv::Mat::zeros(img_input.size(), CV_8UC3);
+                std::cout << "BGS IBMS init -----" << std::endl;
 			}
 
 		private:

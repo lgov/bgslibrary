@@ -104,6 +104,15 @@ struct Mat_PyObject_converter
                         boost::python::converter::rvalue_from_python_stage1_data* data)
   {
     using namespace boost::python;
+
+    std::cout << "---- Convert obj_ptr into a cv::Mat ----" << std::endl;
+    std::cout << "Object " << obj_ptr << " ref count is: " << obj_ptr->ob_refcnt << std::endl;
+
+    // Object is a borrowed reference, so create a handle indicating it is
+    // borrowed for proper reference counting.
+    boost::python::handle<> handle(boost::python::borrowed(obj_ptr));
+    std::cout << "Object " << obj_ptr << " ref count is: " << obj_ptr->ob_refcnt << std::endl;
+    
     typedef converter::rvalue_from_python_storage< T > storage_t;
 
     storage_t* the_storage = reinterpret_cast<storage_t*>( data );

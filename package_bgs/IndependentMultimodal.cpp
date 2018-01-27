@@ -20,7 +20,7 @@ using namespace bgslibrary::algorithms;
 
 IndependentMultimodal::IndependentMultimodal() : fps(10)
 {
-  std::cout << "IndependentMultimodal()" << std::endl;
+  std::cout << "IndependentMultimodal() - Lieven Test" << std::endl;
   pIMBS = new BackgroundSubtractorIMBS(fps);
   setup("./config/IndependentMultimodal.xml");
 }
@@ -41,8 +41,10 @@ void IndependentMultimodal::process(const cv::Mat &img_input, cv::Mat &img_outpu
   //get background image
   pIMBS->getBackgroundImage(img_background);
 
+  std::cout << "copying foreground and background image" << std::endl;
   img_foreground.copyTo(img_output);
   img_background.copyTo(img_bgmodel);
+  std::cout << "---------------------------------------" << std::endl;
 
 #ifndef MEX_COMPILE_FLAG
   if (showOutput)

@@ -180,6 +180,10 @@ void BackgroundSubtractorIMBS::initialize(Size frameSize, int frameType)
 void BackgroundSubtractorIMBS::apply(InputArray _frame, OutputArray _fgmask, double learningRate)
 {
   frame = _frame.getMat();
+    static int counter = 2;
+
+  std::cout << "---- frame " << counter << " ----" << std::endl;
+  counter += 1;
 
   CV_Assert(frame.depth() == CV_8U);
   CV_Assert(frame.channels() == 3);
@@ -682,7 +686,9 @@ Mat BackgroundSubtractorIMBS::convertImageRGBtoHSV(const Mat& imageRGB)
 
 void BackgroundSubtractorIMBS::getBackgroundImage(OutputArray backgroundImage) const
 {
+  std::cout << "getBackgroundImage" << std::endl;
   bgImage.copyTo(backgroundImage);
+  std::cout << "------------------" << std::endl;
 }
 
 void BackgroundSubtractorIMBS::filterFg() {

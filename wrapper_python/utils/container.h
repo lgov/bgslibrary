@@ -85,7 +85,8 @@ struct expose_template_type< std::vector<T> > :
     wrapped_type * newvec = new (memory_chunk) wrapped_type;
     data->convertible = memory_chunk;
 
-    object sequence(handle<>( borrowed( py_obj ) ) );
+      std::cout << "HERE" << std::endl;
+      object sequence(handle<>( borrowed( py_obj ) ) );
 
     for(int idx = 0; idx < len(sequence);idx++)
     {
@@ -147,7 +148,8 @@ template<typename Key, typename Value>
     wrapped_type * newvec = new (memory_chunk) wrapped_type;
     data->convertible = memory_chunk;
 
-    object sequence(handle<>( borrowed( py_obj ) ) );
+      std::cout << "HERE" << std::endl;
+      object sequence(handle<>( borrowed( py_obj ) ) );
     sequence = sequence.attr("items")();
 
     for(int idx = 0; idx < len(sequence);idx++)
@@ -200,6 +202,7 @@ template<typename Key, typename Value>
     wrapped_type * newvec = new (memory_chunk) wrapped_type;
     data->convertible = memory_chunk;
 
+      std::cout << "HERE" << std::endl;
     object sequence(handle<>( borrowed( py_obj ) ) );
     newvec->first = extract<Key>(sequence[0])();
     newvec->second = extract<Value>(sequence[1])();

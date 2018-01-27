@@ -109,6 +109,8 @@ public:
 
     UMatData* allocate(int dims0, const int* sizes, int type, void* data, size_t* step, int flags, UMatUsageFlags usageFlags=USAGE_DEFAULT) const
     {
+        std::cout << "allocate array of dims " << dims0 << std::endl;
+
         if( data != 0 )
         {
             CV_Error(Error::StsAssert, "The data should normally be NULL!");
@@ -138,11 +140,13 @@ public:
 
     bool allocate(UMatData* u, int accessFlags, UMatUsageFlags usageFlags=USAGE_DEFAULT) const
     {
+        std::cout << "allocate UMatData*" << std::endl;
         return stdAllocator->allocate(u, accessFlags, usageFlags);
     }
 
     void deallocate(UMatData* u) const
     {
+        std::cout << "deallocate UMatData*" << std::endl;
         if(u)
         {
             PyEnsureGIL gil;
@@ -229,6 +233,8 @@ cv::Mat NDArrayConverter::toMat(const PyObject *o)
 {
     cv::Mat m;
 
+    std::cout << "NDArrayConverter toMat" << std::endl;
+
     if(!o || o == Py_None)
     {
         if( !m.data )
@@ -309,14 +315,18 @@ cv::Mat NDArrayConverter::toMat(const PyObject *o)
     
     if( m.data )
     {
+        std::cout << "toMat object " << o << " ref count is: " << o->ob_refcnt << std::endl;
+
 #if CV_MAJOR_VERSION == 3
       m.addref();
-      Py_INCREF(o);
+//      Py_INCREF(o);
 #else
         m.refcount = refcountFromPyObject(o);
         m.addref(); // protect the original numpy array from deallocation
                     // (since Mat destructor will decrement the reference counter)
 #endif
+        std::cout << "toMat object " << o << " ref count is: " << o->ob_refcnt << std::endl;
+
     };
     m.allocator = &g_numpyAllocator;
 
@@ -332,6 +342,8 @@ cv::Mat NDArrayConverter::toMat(const PyObject *o)
 
 PyObject* NDArrayConverter::toNDArray(const cv::Mat& m)
 {
+    std::cout << "NDArrayConverter toNDArray" << std::endl;
+
 #if CV_MAJOR_VERSION == 3
   if( !m.data )
         Py_RETURN_NONE;
@@ -341,11 +353,14 @@ PyObject* NDArrayConverter::toNDArray(const cv::Mat& m)
         temp.allocator = &g_numpyAllocator;
         m.copyTo(temp);
         p = &temp;
+        std::cout << "NDArrayConverter toNDArray - allocating " << -1 << " bytes at " << p << std::endl;
     }
     PyObject* o = (PyObject*)p->u->userdata;
     Py_INCREF(o);
     // p->addref();
     // pyObjectFromRefcount(p->refcount);
+    std::cout << "ToNDArray Object " << o << " ref count is: " << ((PyObject *)(o))->ob_refcnt << std::endl;
+
     return o; 
 #else
     if( !m.data )
