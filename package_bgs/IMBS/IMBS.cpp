@@ -54,7 +54,6 @@ BackgroundSubtractorIMBS::BackgroundSubtractorIMBS()
   tau_h = 40;
   minArea = 30.;
   nframes = 0;
-
   persistencePeriod = samplingPeriod*numSamples / 3.;//ms
 
   initial_tick_count = (double)getTickCount();
