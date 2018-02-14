@@ -137,6 +137,7 @@ endif()
 file(GLOB main Main.cpp FrameProcessor.cpp PreProcessor.cpp VideoAnalysis.cpp VideoCapture.cpp)
 file(GLOB demo Demo.cpp)
 file(GLOB demo2 Demo2.cpp)
+file(GLOB demo3 Demo3.cpp)
 
 # list(REMOVE_ITEM sources ${demo} ${demo2})
 
@@ -188,6 +189,9 @@ target_link_libraries(bgs_demo ${OpenCV_LIBS} libbgs)
 
 add_executable(bgs_demo2 ${demo2})
 target_link_libraries(bgs_demo2 ${OpenCV_LIBS} libbgs)
+
+add_executable(bgs_demo3 ${demo3})
+target_link_libraries(bgs_demo3 ${OpenCV_LIBS} libbgs)
 
 install(TARGETS libbgs
   bgslibrary
