@@ -129,6 +129,7 @@ void BackgroundSubtractorIMBS::initialize(Size frameSize, int frameType)
   this->frameType = frameType;
   this->numPixels = frameSize.width*frameSize.height;
 
+  std::cout << "NumPixels: " << this->numPixels << std::endl;
   persistenceMap = new unsigned int[numPixels];
   for (unsigned int i = 0; i < numPixels; i++) {
     persistenceMap[i] = 0;
@@ -182,11 +183,17 @@ void BackgroundSubtractorIMBS::apply(InputArray _frame, OutputArray _fgmask, dou
 {
   frame = _frame.getMat();
 
+  std::cout << "Frame depth: " << frame.depth() << std::endl;
+  std::cout << "Frame channels: " << frame.channels() << std::endl;
   CV_Assert(frame.depth() == CV_8U);
   CV_Assert(frame.channels() == 3);
+  CV_Assert(frame.size().width > 0);
+  CV_Assert(frame.size().height > 0);
 
+  std::cout << "Apply: need initialize" << std::endl;
   bool needToInitialize = nframes == 0 || frame.type() != frameType;
   if (needToInitialize) {
+    std::cout << "Apply: initialize" << std::endl;
     initialize(frame.size(), frame.type());
   }
 
@@ -203,20 +210,24 @@ void BackgroundSubtractorIMBS::apply(InputArray _frame, OutputArray _fgmask, dou
     timestamp += 1000. / fps;//ms
   }
 
+  std::cout << "Apply: check for global changes" << std::endl;
   //check for global changes
   if (sudden_change) {
     changeBg();
   }
 
+  std::cout << "Apply: wait for the first model to be generated" << std::endl;
   //wait for the first model to be generated
   if (bgModel[0].isValid[0]) {
     getFg();
     hsvSuppression();
     filterFg();
   }
+  std::cout << "Apply: update the bg model" << std::endl;
   //update the bg model
   updateBg();
 
+  std::cout << "Apply: show an initial message if the first bg is not yet ready" << std::endl;
   //show an initial message if the first bg is not yet ready
   if (!bgModel[0].isValid[0]) {
     initialMsgGray.copyTo(fgmask);
