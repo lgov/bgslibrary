@@ -157,6 +157,7 @@ if(${OpenCV_VERSION} VERSION_LESS 2.4.3)
   list(REMOVE_ITEM bgs_src ${gmg})
 endif()
 
+add_definitions(-D MEX_COMPILE_FLAG=ON)
 if(BGS_PYTHON_SUPPORT)
   #add_library(libbgs SHARED ${sources} ${bgs_src} ${analysis_src})
   add_library(libbgs SHARED ${bgs_src} ${analysis_src})
