@@ -134,8 +134,8 @@ private:
   typedef struct Bins {
     void initialize(unsigned int numSamples) {
       binValues = new Vec3b[numSamples];
-      binHeights = new uchar[numSamples];
-      isFg = new bool[numSamples];
+      binHeights = new uchar[numSamples]();
+      isFg = new bool[numSamples]();
     }
     ~Bins() {
       if (binValues)  { delete[] binValues; }
@@ -153,10 +153,10 @@ public:
   typedef struct BgModel {
     void initialize(unsigned int maxBgBins) {
       values = new Vec3b[maxBgBins];
-      isValid = new bool[maxBgBins];
+      isValid = new bool[maxBgBins]();
       isValid[0] = false;
-      isFg = new bool[maxBgBins];
-      counter = new uchar[maxBgBins];
+      isFg = new bool[maxBgBins]();
+      counter = new uchar[maxBgBins]();
     }
     ~BgModel() {
       if (values)  { delete[] values; }
