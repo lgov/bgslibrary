@@ -214,6 +214,8 @@ void BackgroundSubtractorIMBS::apply(InputArray _frame, OutputArray _fgmask, dou
   if (bgModel[0].isValid[0]) {
     getFg();
     hsvSuppression();
+
+    // This function can set sudden_change to True
     filterFg();
   }
   //update the bg model
@@ -446,8 +448,8 @@ void BackgroundSubtractorIMBS::createBg(unsigned int bg_sample_number) {
 
     bg_reset = false;
     if (sudden_change) {
-      numSamples *= 3.;
-      samplingPeriod *= 2.;
+      numSamples = std::min(numSamples * 3., 30.);
+      samplingPeriod = std::min(250., samplingPeriod * 2.);
       sudden_change = false;
     }
 
